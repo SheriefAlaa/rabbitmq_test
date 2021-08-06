@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      USERNAME: root
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - DATABASE_URL=ecto://root:@db/qiibee_dev
+        - SECRET_KEY_BASE=v1ZKC3ehYXOQNgtR34lMD9qw+Rg8UGs0CwiiuGuCwu9NF39awyswRiiVuCxW927J
+        - MIX_ENV=dev
+    image: app:latest
+    environment:
+      DATABASE_URL: ecto://root:@db/qiibee_dev
+      SECRET_KEY_BASE: v1ZKC3ehYXOQNgtR34lMD9qw+Rg8UGs0CwiiuGuCwu9NF39awyswRiiVuCxW927J
+      HOSTNAME: api.sherief.dev
+      POOL_SIZE: 20
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    entrypoint:
+      - "./entrypoint.sh"
+      - "mysql:3306"
+      - "-t"
+      - "2"
+      - "--"
+      - "./run_app.sh"
