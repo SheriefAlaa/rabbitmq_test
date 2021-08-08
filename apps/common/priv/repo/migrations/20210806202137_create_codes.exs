@@ -13,5 +13,7 @@ defmodule Qiibee.Repo.Migrations.CreateCodes do
     end
 
     create index(:codes, [:brand_id])
+
+    create unique_index(:codes, [:code, :brand_id])
   end
 end

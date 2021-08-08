@@ -12,5 +12,10 @@ defmodule Qiibee.Repo.Migrations.CreateUsers do
 
       timestamps()
     end
+
+    create index(:users, [:email])
+    create index(:users, [:phone])
+    create unique_index(:users, [:brand_id, :phone])
+    create unique_index(:users, [:brand_id, :email])
   end
 end

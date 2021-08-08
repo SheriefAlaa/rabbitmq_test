@@ -9,5 +9,7 @@ defmodule Qiibee.Repo.Migrations.CreateAdmins do
 
       timestamps()
     end
+
+    create unique_index(:admins, [:username])
   end
 end

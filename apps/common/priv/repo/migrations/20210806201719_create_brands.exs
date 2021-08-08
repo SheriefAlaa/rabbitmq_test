@@ -11,5 +11,7 @@ defmodule Qiibee.Repo.Migrations.CreateBrands do
     end
 
     create index(:brands, [:admin_id])
+
+    create unique_index(:brands, [:name, :admin_id])
   end
 end
