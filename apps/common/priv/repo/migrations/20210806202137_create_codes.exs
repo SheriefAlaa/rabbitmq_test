@@ -7,7 +7,7 @@ defmodule Qiibee.Repo.Migrations.CreateCodes do
       add :expires_at, :naive_datetime
       add :code, :string
       add :points, :integer
-      add :brand_id, references(:brands, on_delete: :nothing, type: :binary_id)
+      add :brand_id, references(:brands, on_delete: :delete_all, type: :binary_id)
 
       timestamps()
     end

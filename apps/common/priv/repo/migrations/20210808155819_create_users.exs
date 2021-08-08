@@ -1,16 +1,16 @@
-defmodule Qiibee.Repo.Migrations.CreateRewards do
+defmodule Qiibee.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do
-    create table(:rewards, primary_key: false) do
+    create table(:users, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string
-      add :price_in_points, :integer
+      add :email, :string
+      add :phone, :string
+      add :language, :string
       add :brand_id, references(:brands, on_delete: :delete_all, type: :binary_id)
 
       timestamps()
     end
-
-    create index(:rewards, [:brand_id])
   end
 end

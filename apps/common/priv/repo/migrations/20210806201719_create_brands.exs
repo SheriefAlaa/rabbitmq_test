@@ -5,7 +5,7 @@ defmodule Qiibee.Repo.Migrations.CreateBrands do
     create table(:brands, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string
-      add :admin_id, references(:admins, on_delete: :nothing, type: :binary_id)
+      add :admin_id, references(:admins, on_delete: :delete_all, type: :binary_id)
 
       timestamps()
     end
