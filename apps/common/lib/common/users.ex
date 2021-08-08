@@ -19,4 +19,10 @@ defmodule Common.Users do
     from(u in User, where: u.id == ^id)
     |> Repo.one()
   end
+
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
 end

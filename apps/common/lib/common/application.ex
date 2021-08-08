@@ -8,7 +8,7 @@ defmodule Common.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      Qiibee.Repo,
+      Qiibee.Repo
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

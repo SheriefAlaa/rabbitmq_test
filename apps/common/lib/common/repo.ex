@@ -3,7 +3,6 @@ defmodule Qiibee.Repo do
     otp_app: :common,
     adapter: Ecto.Adapters.MyXQL
 
-
   @doc """
   Dynamically loads the repository url from the
   DATABASE_URL environment variable.
