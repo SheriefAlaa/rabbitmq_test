@@ -49,9 +49,9 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
    - [ ] Create a queue seeder
 
 3. Blockchain layer (Mock):
-   - [ ] Create app
-   - [ ] Create the balances table
-   - [ ] Add necessary operations to be used by Broadway
+   - [x] Create app
+   - [x] Create the balances table
+   - [x] Add necessary operations to be used by Broadway
 
 4. Common structs app:
    - [x] Create admins

@@ -3,17 +3,22 @@ defmodule Common.RewardsTest do
 
   alias Common.Rewards
 
+  import Common.Factory
+
   describe "rewards" do
     alias Common.Rewards.Reward
 
-    @valid_attrs %{name: "some name", price_in_points: 42}
+    @valid_attrs %{name: "some name", price_in_points: 42, brand_id: nil}
     @update_attrs %{name: "some updated name", price_in_points: 43}
     @invalid_attrs %{name: nil, price_in_points: nil}
 
     def reward_fixture(attrs \\ %{}) do
+      admin = insert(:admin)
+      brand = insert(:brand_custom_admin, %{admin: admin})
+
       {:ok, reward} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(%{@valid_attrs | brand_id: brand.id})
         |> Rewards.create_reward()
 
       reward
@@ -30,7 +35,12 @@ defmodule Common.RewardsTest do
     end
 
     test "create_reward/1 with valid data creates a reward" do
-      assert {:ok, %Reward{} = reward} = Rewards.create_reward(@valid_attrs)
+      admin = insert(:admin)
+      brand = insert(:brand_custom_admin, %{admin: admin})
+
+      assert {:ok, %Reward{} = reward} =
+               Rewards.create_reward(%{@valid_attrs | brand_id: brand.id})
+
       assert reward.name == "some name"
       assert reward.price_in_points == 42
     end

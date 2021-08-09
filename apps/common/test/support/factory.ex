@@ -1,7 +1,7 @@
 defmodule Common.Factory do
   use ExMachina.Ecto, repo: Qiibee.Repo
 
-  alias Common.{Admins.Admin, Brands.Brand, Users.User}
+  alias Common.{Admins.Admin, Codes.Code, Brands.Brand, Users.User, Rewards.Reward}
 
   def admin_factory do
     name = "#{Faker.Person.En.first_name()} #{Faker.Person.En.last_name()}"
@@ -29,6 +29,13 @@ defmodule Common.Factory do
     }
   end
 
+  def brand_custom_admin_factory do
+    %Brand{
+      name: "Brand: #{Faker.Commerce.product_name()}",
+      admin: build(:admin)
+    }
+  end
+
   def user_factory do
     brand = insert(:brand)
 
@@ -37,8 +44,34 @@ defmodule Common.Factory do
       email: Faker.Internet.free_email(),
       phone: Faker.Phone.EnUs.phone(),
       language: "en",
-      brand: brand,
-      brand_id: brand.id
+      brand: brand
+    }
+  end
+
+  def user_custom_brand_factory do
+    %User{
+      name: Faker.Person.En.name(),
+      email: Faker.Internet.free_email(),
+      phone: Faker.Phone.EnUs.phone(),
+      language: "en",
+      brand: build(:brand_custom_admin)
+    }
+  end
+
+  def code_factory() do
+    %Code{
+      code: Faker.UUID.v4() |> String.replace("-", "") |> String.slice(1..9),
+      expires_at: DateTime.utc_now(),
+      points: 12,
+      brand: build(:brand)
+    }
+  end
+
+  def reward_factory() do
+    %Reward{
+      name: "Reward: #{Faker.Commerce.product_name()}",
+      price_in_points: Enum.random(5..50),
+      brand: build(:brand)
     }
   end
 end

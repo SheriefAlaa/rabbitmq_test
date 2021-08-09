@@ -52,8 +52,8 @@ _codes =
       case Codes.create_code(%{
              code: Faker.UUID.v4() |> String.replace("-", "") |> String.slice(1..9),
              expires_at:
-               DateTime.add(
-                 DateTime.utc_now(),
+               NaiveDateTime.add(
+                 NaiveDateTime.utc_now(),
                  Enum.random(-one_day_in_seconds..five_day_in_seconds),
                  :second
                ),

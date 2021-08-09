@@ -13,9 +13,6 @@ defmodule Common.Users.User do
     field :language, :string
     belongs_to(:brand, Brand)
 
-    # Virtuals
-    field :balance, :decimal, default: Decimal.new(0), virtual: true
-
     timestamps()
   end
 

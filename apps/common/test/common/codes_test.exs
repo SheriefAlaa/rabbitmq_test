@@ -3,17 +3,27 @@ defmodule Common.CodesTest do
 
   alias Common.Codes
 
+  import Common.Factory
+
   describe "codes" do
     alias Common.Codes.Code
 
-    @valid_attrs %{code: "some code", expires_at: ~N[2010-04-17 14:00:00], points: 42}
+    @valid_attrs %{
+      code: "some code",
+      expires_at: ~N[2010-04-17 14:00:00],
+      points: 42,
+      brand_id: nil
+    }
     @update_attrs %{code: "some updated code", expires_at: ~N[2011-05-18 15:01:01], points: 43}
     @invalid_attrs %{code: nil, expires_at: nil, points: nil}
 
     def code_fixture(attrs \\ %{}) do
+      admin = insert(:admin)
+      brand = insert(:brand_custom_admin, %{admin: admin})
+
       {:ok, code} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(%{@valid_attrs | brand_id: brand.id})
         |> Codes.create_code()
 
       code
@@ -30,7 +40,10 @@ defmodule Common.CodesTest do
     end
 
     test "create_code/1 with valid data creates a code" do
-      assert {:ok, %Code{} = code} = Codes.create_code(@valid_attrs)
+      admin = insert(:admin)
+      brand = insert(:brand_custom_admin, %{admin: admin})
+
+      assert {:ok, %Code{} = code} = Codes.create_code(%{@valid_attrs | brand_id: brand.id})
       assert code.code == "some code"
       assert code.expires_at == ~N[2010-04-17 14:00:00]
       assert code.points == 42

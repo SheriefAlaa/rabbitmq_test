@@ -4,9 +4,9 @@ defmodule Qiibee.Repo.Migrations.CreateCodes do
   def change do
     create table(:codes, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :expires_at, :naive_datetime
-      add :code, :string
-      add :points, :integer
+      add :expires_at, :naive_datetime, null: false
+      add :code, :string, null: false
+      add :points, :integer, null: false
       add :brand_id, references(:brands, on_delete: :delete_all, type: :binary_id)
 
       timestamps()

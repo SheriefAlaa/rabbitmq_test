@@ -37,6 +37,8 @@ defmodule Common.Codes do
   """
   def get_code!(id), do: Repo.get!(Code, id)
 
+  def get_code(id), do: Repo.get(Code, id)
+
   @doc """
   Creates a code.
 

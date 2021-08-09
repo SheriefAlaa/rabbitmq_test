@@ -17,7 +17,7 @@ defmodule Common.Rewards.Reward do
   @doc false
   def changeset(reward, attrs) do
     reward
-    |> cast(attrs, [:name, :price_in_points])
-    |> validate_required([:name, :price_in_points])
+    |> cast(attrs, [:brand_id, :name, :price_in_points])
+    |> validate_required([:brand_id, :name, :price_in_points])
   end
 end

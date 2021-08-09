@@ -13,3 +13,5 @@ config :common, Qiibee.Repo,
 config :api, ApiWeb.Endpoint,
   http: [port: 4002],
   server: false
+
+# config :qiibee, blockchain_module: Blockchain.BlockchainStub

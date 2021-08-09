@@ -17,7 +17,7 @@ defmodule Common.Codes.Code do
   @doc false
   def changeset(code, attrs) do
     code
-    |> cast(attrs, [:expires_at, :code, :points])
-    |> validate_required([:expires_at, :code, :points])
+    |> cast(attrs, [:brand_id, :expires_at, :code, :points])
+    |> validate_required([:brand_id, :expires_at, :code, :points])
   end
 end

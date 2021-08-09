@@ -37,6 +37,9 @@ defmodule Common.Rewards do
   """
   def get_reward!(id), do: Repo.get!(Reward, id)
 
+
+  def get_reward(id), do: Repo.get(Reward, id)
+
   @doc """
   Creates a reward.
 

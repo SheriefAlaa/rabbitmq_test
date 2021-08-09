@@ -1,8 +1,11 @@
 import Mix.Config
 
-for application <- [:common] do
-  config application, ecto_repos: [Qiibee.Repo], database: "foo"
+for application <- [:common, :blockchain] do
+  config application, ecto_repos: [Qiibee.Repo]
 end
+
+# Swapable with a real Blockchain given that Blockchain behaviour/contract is respected.
+config :blockchain, blockchain_module: Blockchain
 
 config :common,
   namespace: Common,
