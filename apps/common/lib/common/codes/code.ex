@@ -1,6 +1,7 @@
 defmodule Common.Codes.Code do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Common.Brands.Brand
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -8,7 +9,7 @@ defmodule Common.Codes.Code do
     field :code, :string
     field :expires_at, :naive_datetime
     field :points, :integer
-    field :brand_id, :binary_id
+    belongs_to(:brand, Brand)
 
     timestamps()
   end

@@ -2,6 +2,8 @@ defmodule Common.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Common.Brands.Brand
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -9,7 +11,7 @@ defmodule Common.Users.User do
     field :email, :string
     field :phone, :string
     field :language, :string
-    field :brand_id, :binary_id
+    belongs_to(:brand, Brand)
 
     # Virtuals
     field :balance, :decimal, default: Decimal.new(0), virtual: true

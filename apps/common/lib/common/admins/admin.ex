@@ -16,5 +16,6 @@ defmodule Common.Admins.Admin do
     admin
     |> cast(attrs, [:username, :name])
     |> validate_required([:username, :name])
+    |> unique_constraint(:username, name: :admins_username_index, message: "taken")
   end
 end

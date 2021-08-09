@@ -2,12 +2,14 @@ defmodule Common.Rewards.Reward do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Common.Brands.Brand
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "rewards" do
     field :name, :string
     field :price_in_points, :integer
-    field :brand_id, :binary_id
+    belongs_to(:brand, Brand)
 
     timestamps()
   end

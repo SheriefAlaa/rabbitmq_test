@@ -18,7 +18,8 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
     docker-compose up --build # Comment out all services except db
     asdf install
     mix deps.get
-    mix do ecto.create, ecto.migrate
+    mix ecto.reset
+    mix seed
     iex -S mix
 ```
 
@@ -34,7 +35,7 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
    - [ ] User
        - [ ] Auth
        - [ ] REST API
-         - [ ] User registration
+         - [x] User registration
          - [ ] Redeem code to get points
          - [ ] Redeem reward using points
          - [ ] Transactions history
@@ -58,3 +59,4 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
    - [x] Create users (belongs to brands)
    - [x] Create codes (belongs to brands)
    - [x] Create rewards (belongs to brands)
+   - [x] Create a seeder
