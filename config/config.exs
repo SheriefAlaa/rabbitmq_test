@@ -5,7 +5,7 @@ for application <- [:common, :blockchain] do
 end
 
 # Swapable with a real Blockchain given that Blockchain behaviour/contract is respected.
-config :blockchain, blockchain_module: Blockchain
+config :blockchain, blockchain_module: BlockchainSqlMock
 
 config :common,
   namespace: Common,

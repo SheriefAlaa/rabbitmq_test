@@ -1,90 +1,48 @@
 defmodule Blockchain do
   @moduledoc """
-  Blockchain mock.
+  Behavior for blockchain module that simulates a
+  Blockchain using a balances table in MySQL.
   """
-  import Ecto.Query, warn: false
 
-  @behaviour Blockchain.Behaviour
+  @callback earn(String.t(), String.t(), Integer.t()) :: {:ok, Struct.t()} | {:error, any()}
+  @callback burn(String.t(), String.t(), Integer.t()) :: {:ok, Struct.t()} | {:error, any()}
+  @callback code_to_points(String.t(), String.t()) :: {:ok, Struct.t()} | {:error, any()}
+  @callback points_to_rewards(String.t(), String.t()) :: {:ok, Struct.t()} | {:error, any()}
 
-  alias Qiibee.Repo
-  alias Blockchain.Balance
-  alias Common.Rewards.Reward
-  alias Common.Codes.Code
-  alias Common.{Codes, Rewards}
+  @callback get_user_balance(String.t()) :: Integer.t()
 
-  @impl true
-  def earn(admin_id, user_id, balance_to_add) do
-    %Balance{}
-    |> Balance.changeset(%{
-      admin_id: admin_id,
-      user_id: user_id,
-      balance: balance_to_add
-    })
-    |> Repo.insert()
-  end
-
-  @impl true
-  def burn(admin_id, user_id, balance_to_deduct) do
-    %Balance{}
-    |> Balance.changeset(%{
-      admin_id: admin_id,
-      user_id: user_id,
-      balance: abs(balance_to_deduct) * -1
-    })
-    |> Repo.insert()
-  end
-
-  @impl true
-  def code_to_points(code_id, user_id) do
-    with %Code{expires_at: expires_at} = code <- Codes.get_code(code_id),
-         :gt <- NaiveDateTime.compare(expires_at, NaiveDateTime.utc_now()) do
-      %Balance{}
-      |> Balance.changeset(%{
-        code_id: code_id,
-        user_id: user_id,
-        balance: code.points
-      })
-      |> Repo.insert()
-    else
-      nil ->
-        {:error, :code_not_found}
-
-      _ ->
-        {:error, :code_expired}
-    end
-  end
-
-  @impl true
-  def points_to_rewards(reward_id, user_id) do
-    with %Reward{} = reward <- Rewards.get_reward(reward_id),
-         balance = get_user_balance(user_id),
-         true <- is_integer(balance),
-         true <- reward.price_in_points <= balance do
-      %Balance{}
-      |> Balance.changeset(%{
-        reward_id: reward.id,
-        user_id: user_id,
-        balance: reward.price_in_points * -1
-      })
-      |> Repo.insert()
-    else
-      false ->
-        {:error, :insufficient_funds}
-
-      nil ->
-        {:error, :reward_not_found}
-
-      error ->
-        error
-    end
+  defp blockchain_module() do
+    Application.fetch_env!(:blockchain, :blockchain_module)
   end
 
   @doc """
-  Get user's balance of points.
+  Add some points from the user's balance.
   """
-  def get_user_balance(user_id) do
-    from(b in Balance, where: b.user_id == ^user_id, select: sum(b.balance))
-    |> Repo.one()
-    |> Decimal.to_integer()
-  end
+  def earn(admin_id, user_id, balance_to_add),
+    do: blockchain_module().earn(admin_id, user_id, balance_to_add)
+
+  @doc """
+  Deduct some points from the user's balance.
+  """
+  def burn(admin_id, user_id, balance_to_deduct),
+    do: blockchain_module().burn(admin_id, user_id, balance_to_deduct)
+
+  @doc """
+  args: user_id, code_id
+  """
+  def code_to_points(code_id, user_id), do: blockchain_module().code_to_points(code_id, user_id)
+
+  @doc """
+  Convert some points to a reward based on the user's balance can
+  afford it or not
+  """
+  def points_to_rewards(reward_id, user_id),
+    do: blockchain_module().points_to_rewards(reward_id, user_id)
+
+  @doc """
+  Get the user balance.
+
+  Note: Each user belongs to a brand.
+  """
+  def get_user_balance(user_id), do: blockchain_module().get_user_balance(user_id)
 end
