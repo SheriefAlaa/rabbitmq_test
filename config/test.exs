@@ -13,3 +13,9 @@ config :common, Qiibee.Repo,
 config :api, ApiWeb.Endpoint,
   http: [port: 4002],
   server: false
+
+# TODO: convert all to be env vars.
+# Joint prod/dev env variables
+config :publisher_consumer, :rabbitmq,
+  email_producer_module: PublisherConsumer.Email.PublisherStub,
+  email_consumer_module: {Broadway.DummyProducer, []}

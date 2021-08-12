@@ -29,5 +29,14 @@ defmodule Common.Users.User do
     user
     |> cast(attrs, allowed)
     |> validate_required(allowed)
+    |> foreign_key_constraint(:brand_id, name: :users_brand_id_fkey)
+    |> unique_constraint([:phone],
+      name: :users_brand_id_phone_index,
+      message: "Already registered with this brand"
+    )
+    |> unique_constraint([:email],
+      name: :users_brand_id_email_index,
+      message: "Already registered with this brand"
+    )
   end
 end

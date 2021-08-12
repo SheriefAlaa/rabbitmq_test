@@ -13,15 +13,23 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
 ```
     docker-compose up --build --remove-orphan
 ```
-## Development
+## Run for development
 ```
-    docker-compose up --build # Comment out all services except db
+    docker-compose up --build # Remember to comment the app service
     asdf install
     mix deps.get
     mix ecto.reset
     mix seed
     iex -S mix
 ```
+
+## Monitoring RabbitMQ
+Update Rabbit's user to admin
+```
+    docker exec -it qiibee_rabbitmq_1 /bin/bash
+
+```
+Visit web interface through `http://localhost:15672/` the username should be `user` and password is `pass`
 
 ## Features planned
 
@@ -31,7 +39,7 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
        - [ ] REST API
          - [ ] Check user's balance
          - [ ] Credit a certain user some points (Earn)
-         - [ ] Debit a certain user some points (Burn
+         - [ ] Debit a certain user some points (Burn)
    - [ ] User
        - [ ] Auth
        - [ ] REST API
@@ -39,21 +47,25 @@ SaaS Blockchain based project to help businesses track their codes/points/reward
          - [ ] Redeem code to get points
          - [ ] Redeem reward using points
          - [ ] Transactions history
+         - [x] Mock email service
 
 * Note: Each REST API operation will go through the API for validation first then get forwarded to RabbitMQ to be later consumed by Broadway.
 
-2. Consumer layer:
-   - [ ] Setup RabbitMQ
-   - [ ] Connect to RabbitMQ
-   - [ ] Create necessary queues/exchanges/dlxs
-   - [ ] Create a queue seeder
+1. Consumer layer:
+   1. hackney_pool setup
+   - [x] Setup RabbitMQ (queues/exchanges/dlxs)
+   - [x] Connect to RabbitMQ and test it
+   - [x] Create a user registration queue (for emails)
+   - [ ] api -> admin -> consumer / publisher
+   - [ ] api -> user -> consumer / publisher
+   <!-- - [ ] Create a queue seeder (Publisher that will be used by the API) -->
 
-3. Blockchain layer (Mock):
+2. Blockchain layer (Mock):
    - [x] Create app
    - [x] Create the balances table
    - [x] Add necessary operations to be used by Broadway
 
-4. Common structs app:
+3. Common structs app:
    - [x] Create admins
    - [x] Create brands (belongs to admins)
    - [x] Create users (belongs to brands)

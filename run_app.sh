@@ -1,1 +1,1 @@
-exec elixir -S mix do ecto.create, ecto.migrate #, phx.server
+exec elixir -S mix do ecto.create, ecto.migrate, phx.server, seed

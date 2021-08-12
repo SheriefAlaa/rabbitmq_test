@@ -1,13 +1,21 @@
-version: '3.7'
+version: "3.7"
 
 services:
   db:
-    image: mysql:8.0
+    image: mysql:8.0.26
     ports:
-      - '3306:3306'
+      - "3306:3306"
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
       USERNAME: root
+  rabbitmq:
+    image: rabbitmq:3.8.20
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
   app:
     build:
       context: ./
@@ -22,8 +30,10 @@ services:
       SECRET_KEY_BASE: v1ZKC3ehYXOQNgtR34lMD9qw+Rg8UGs0CwiiuGuCwu9NF39awyswRiiVuCxW927J
       HOSTNAME: api.sherief.dev
       POOL_SIZE: 20
+    restart: on-failure
     depends_on:
       - db
+      - rabbitmq
     ports:
       - "4000:4000"
     entrypoint:
@@ -33,3 +43,6 @@ services:
       - "2"
       - "--"
       - "./run_app.sh"
+
+volumes:
+  rabbitmq-data: {}

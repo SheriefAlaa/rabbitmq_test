@@ -38,12 +38,12 @@ defmodule Api.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.5.9"},
-      {:phoenix_live_dashboard, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:common, in_umbrella: true}
+      {:common, in_umbrella: true},
+      {:publisher_consumer, in_umbrella: true}
     ]
   end
 
