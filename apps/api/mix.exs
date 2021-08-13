@@ -43,7 +43,8 @@ defmodule Api.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:common, in_umbrella: true},
-      {:publisher_consumer, in_umbrella: true}
+      {:publisher_consumer, in_umbrella: true},
+      {:blockchain, in_umbrella: true}
     ]
   end
 

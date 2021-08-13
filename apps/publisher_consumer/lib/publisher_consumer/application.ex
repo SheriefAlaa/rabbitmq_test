@@ -12,6 +12,11 @@ defmodule PublisherConsumer.Application do
           %{
             id: PublisherConsumer.Email.Publisher,
             start: {PublisherConsumer.Email.Publisher, :start_link, []}
+          },
+          PublisherConsumer.User.CodeToPointsConsumer,
+          %{
+            id: PublisherConsumer.API.User.Publisher,
+            start: {PublisherConsumer.API.User.Publisher, :start_link, []}
           }
         ]
       else

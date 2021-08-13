@@ -10,6 +10,8 @@ defmodule BlockchainSqlMock do
   alias Blockchain.Balance
   alias Common.Rewards.Reward
   alias Common.Codes.Code
+  alias Common.Users.User
+  alias Common.Users
   alias Common.{Codes, Rewards}
 
   @impl true
@@ -36,7 +38,9 @@ defmodule BlockchainSqlMock do
 
   @impl true
   def code_to_points(code_id, user_id) do
-    with %Code{expires_at: expires_at} = code <- Codes.get_code(code_id),
+    with %User{brand_id: brand_id} = Users.get_user(user_id),
+         %Code{expires_at: expires_at, brand_id: code_brand_id} = code <- Codes.get_code(code_id),
+         true <- brand_id == code_brand_id,
          :gt <- NaiveDateTime.compare(expires_at, NaiveDateTime.utc_now()) do
       %Balance{}
       |> Balance.changeset(%{
@@ -48,6 +52,9 @@ defmodule BlockchainSqlMock do
     else
       nil ->
         {:error, :code_not_found}
+
+      false ->
+        {:error, :user_not_associated_with_brand}
 
       _ ->
         {:error, :code_expired}

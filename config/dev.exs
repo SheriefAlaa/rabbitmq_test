@@ -10,15 +10,17 @@ for application <- [:common] do
     pool_size: 20
 end
 
-# TODO: convert all to be env vars.
-# Joint prod/dev env variables
 config :publisher_consumer, :rabbitmq,
-  connection: "amqp://guest:guest@rabbitmq",
-  email_exchange: "qiibee_email_exchange",
+  connection: "amqp://guest:guest@localhost:5672",
+  email_exchange: "email_exchange",
   email_queue: "emails",
+  user_exchange: "user_exchange",
+  user_code_to_points_queue: "user_code_to_points",
+  user_points_to_rewards_queue: "user_points_to_rewards",
   publish_options: [persistent: true, content_type: "application/json"],
+  consumer_module: BroadwayRabbitMQ.Producer,
   email_producer_module: PublisherConsumer.Email.Publisher,
-  email_consumer_module: BroadwayRabbitMQ.Producer
+  user_producer_module: PublisherConsumer.API.User.Publisher
 
 config :api, ApiWeb.Endpoint,
   http: [port: 4000],

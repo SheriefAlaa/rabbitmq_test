@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql:8.0.26
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      USERNAME: root
+  rabbitmq:
+    image: rabbitmq:3.8.20
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    volumes:
+      - ./dev_rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+volumes:
+  rabbitmq-data: {}

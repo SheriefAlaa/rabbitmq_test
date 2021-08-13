@@ -37,6 +37,8 @@ defmodule Common.Admins do
   """
   def get_admin!(id), do: Repo.get!(Admin, id)
 
+  def get_admin(id), do: Repo.get(Admin, id)
+
   @doc """
   Creates a admin.
 

@@ -37,6 +37,8 @@ defmodule Common.Brands do
   """
   def get_brand!(id), do: Repo.get!(Brand, id)
 
+  def get_brand(id), do: Repo.get(Brand, id)
+
   @doc """
   Creates a brand.
 

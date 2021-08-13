@@ -18,4 +18,5 @@ config :api, ApiWeb.Endpoint,
 # Joint prod/dev env variables
 config :publisher_consumer, :rabbitmq,
   email_producer_module: PublisherConsumer.Email.PublisherStub,
-  email_consumer_module: {Broadway.DummyProducer, []}
+  user_producer_module: PublisherConsumer.User.PublisherStub,
+  consumer_module: {Broadway.DummyProducer, []}

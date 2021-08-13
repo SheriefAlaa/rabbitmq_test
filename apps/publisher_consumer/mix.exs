@@ -26,6 +26,7 @@ defmodule PublisherConsumer.MixProject do
   defp deps do
     [
       {:common, in_umbrella: true},
+      {:blockchain, in_umbrella: true},
       {:httpoison, "~> 1.8"},
       {:broadway, "~> 0.6.2"},
       {:broadway_rabbitmq, "~> 0.6.5"},

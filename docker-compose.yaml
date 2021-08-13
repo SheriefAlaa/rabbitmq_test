@@ -21,12 +21,12 @@ services:
       context: ./
       dockerfile: Dockerfile
       args:
-        - DATABASE_URL=ecto://root:@db/qiibee_dev
+        - DATABASE_URL=ecto://root:@db/qiibee_prod
         - SECRET_KEY_BASE=v1ZKC3ehYXOQNgtR34lMD9qw+Rg8UGs0CwiiuGuCwu9NF39awyswRiiVuCxW927J
-        - MIX_ENV=dev
+        - MIX_ENV=prod
     image: app:latest
     environment:
-      DATABASE_URL: ecto://root:@db/qiibee_dev
+      DATABASE_URL: ecto://root:@db/qiibee_prod
       SECRET_KEY_BASE: v1ZKC3ehYXOQNgtR34lMD9qw+Rg8UGs0CwiiuGuCwu9NF39awyswRiiVuCxW927J
       HOSTNAME: api.sherief.dev
       POOL_SIZE: 20

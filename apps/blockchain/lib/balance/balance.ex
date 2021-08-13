@@ -33,7 +33,7 @@ defmodule Blockchain.Balance do
     |> foreign_key_constraint(:admin_id, name: :balances_admin_id_fkey)
     |> foreign_key_constraint(:code_id, name: :balances_code_id_fkey)
     |> foreign_key_constraint(:reward_id, name: :balances_reward_id_fkey)
-    |> unique_constraint([:code_id, :user_id], name: :balances_code_id_user_id_fkey)
+    |> unique_constraint([:code_id, :user_id], name: :balances_code_id_user_id_index)
   end
 
   @doc """

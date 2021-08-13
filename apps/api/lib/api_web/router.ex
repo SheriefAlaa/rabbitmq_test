@@ -11,5 +11,17 @@ defmodule ApiWeb.Router do
     scope "/user", Users, as: :users do
       post "/register", UserController, :register
     end
+
+    scope "/user", Users, as: :users do
+      pipe_through ApiWeb.Plugs.AuthUser
+
+      post "/code_to_points", UserController, :code_to_points
+    end
+
+    scope "/admin", Admins, as: :admins do
+      pipe_through ApiWeb.Plugs.AuthAdmin
+
+      get "/user_balance/:user_id", AdminController, :get_user_balance
+    end
   end
 end
